@@ -6,13 +6,25 @@ metadata:
     apps.tanzu.vmware.com/workload-type: web
     apps.tanzu.vmware.com/auto-configure-actuators: "true"
     app.kubernetes.io/part-of: tanzu-java-web-app
+    apis.apps.tanzu.vmware.com/register-api: "true"
 spec:
   params:
   - name: annotations
     value:
       autoscaling.knative.dev/minScale: "1"
+  - name: api_descriptor
+    value:
+      type: openapi
+      location:
+        path: "/v3/api-docs"
+      owner: team-vmware-tanzu-se
+      description: "A set of API endpoints to manage the resources within the inclusion app."
   source:
     git:
-      url: <https URL for your generated project's Git repository>
+      url: https://github.com/dsharmaa4/tanzu-java-web-app.git
       ref:
         branch: main
+build:
+    env:
+      - name: BP_JVM_VERSION
+        value: "17"
