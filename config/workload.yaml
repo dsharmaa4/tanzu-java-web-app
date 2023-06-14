@@ -8,6 +8,15 @@ metadata:
     app.kubernetes.io/part-of: tanzu-java-web-app
     apis.apps.tanzu.vmware.com/register-api: "true"
     apps.tanzu.vmware.com/has-tests: "true"
+    app.kubernetes.io/component: deliverable
+    app.tanzu.vmware.com/deliverable-type: web
+    carto.run/cluster-template-name: deliverable-template
+    carto.run/resource-name: deliverable
+    carto.run/supply-chain-name: source-test-to-url
+    carto.run/template-kind: ClusterTemplate
+    carto.run/template-lifecycle: mutable
+    carto.run/workload-name: tanzu-java-web-app
+    carto.run/workload-namespace: tap-install
 spec:
   params:
   - name: testing_pipeline_matching_labels
