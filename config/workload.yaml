@@ -26,7 +26,3 @@ spec:
       url: https://github.com/dsharmaa4/tanzu-java-web-app.git
       ref:
         branch: main
-build:
-    env:
-      - name: BP_JVM_VERSION
-        value: "17"
