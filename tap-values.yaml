@@ -1,0 +1,102 @@
+profile: full
+ceip_policy_disclosed: true # Installation fails if this is set to 'false'
+
+buildservice:
+  kp_default_repository: tanzurepo.azurecr.io/buildservice
+  kp_default_repository_secret:
+    name: registry-credentials
+    namespace: mydev-ns
+supply_chain: testing
+ootb_supply_chain_testing:
+  registry:
+    server: "tanzurepo.azurecr.io"
+    repository: sharma_azure
+  gitops: 
+    ssh_secret: ""
+  cluster_builder: default
+  service_account: default
+
+ootb_supply_chain_testing_scanning:
+  registry:
+    server: tanzurepo.azurecr.io
+    repository: sharma_azure
+  gitops:
+    ssh_secret: ""
+
+learningcenter:
+  ingressDomain: learning-center.tap.com
+
+scanning:
+  metadataStore:
+    url: ""
+
+ootb_templates:
+  iaas_auth: true
+
+ootb_delivery_basic:
+  service_account: default
+
+
+metadata_store:
+  app_service_type: LoadBalancer # (optional) Defaults to LoadBalancer. Change to NodePort for distributions that don't support LoadBalancer
+contour:
+  envoy:
+    service:
+      type: LoadBalancer
+tap_gui:
+  service_type: LoadBalancer
+  app_config:
+    app:
+      baseUrl: http://20.204.232.151:7000
+    integrations:
+      github: # Other integrations available see NOTE below
+        - host: github.com
+          token: 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   #  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
+    catalog:
+      locations:
+        - type: url
+          target: https://github.com/dsharmaa4/tanzu-java-web-app/blob/main/catalog/catalog-info.yaml
+    backend:
+      baseUrl: http://20.204.232.151:7000
+      cors:
+        origin: http://20.204.232.151:7000
+
+accelerator:
+  server:
+    service_type: "ClusterIP"
+
+appliveview:
+      ingressEnabled: true
+      ingressDomain: demo.tap.com
+
+appliveview_connector:
+      backend:
+        ingressEnabled: true
+        host: appliveview.demo.tap.com
+        sslDeactivated: false
+
+api_auto_registration:
+      tap_gui_url: https://tap-gui.demo.tap.com
+
+grype:
+      namespace: "tap-workload" # (optional) Defaults to default namespace.
+      targetImagePullSecret: "registries-credentials"
+      
+api_portal:
+      apiPortalServer:
+        sourceUrls: "https://petstore.swagger.io/v2/swagger.json, https://petstore3.swagger.io/api/v3/openapi.json"
+        title: "SBI Demo API Portal"
+        description: "Demo"
+        ingressDomain: "demo.tap.com"
+
+excluded_packages:
+    - policy.apps.tanzu.vmware.com
+    - workshops.learningcenter.tanzu.vmware.com
+    - cnrs.tanzu.vmware.com
+    - ootb-delivery-basic.tanzu.vmware.com
+    - api-portal.tanzu.vmware.com
+    - backend.appliveview.tanzu.vmware.com
+    - controller.source.apps.tanzu.vmware.com
+    - grype.scanning.apps.tanzu.vmware.com
+    - namespace-provisioner.apps.tanzu.vmware.com 
+    - spring-boot-conventions.tanzu.vmware.com
