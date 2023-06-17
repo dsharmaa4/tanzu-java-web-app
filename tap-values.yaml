@@ -1,12 +1,25 @@
 profile: full
+shared: 
+  ingress_domain: "deepak.vmwareexploreindia.com"
+  ingress_issuer: ""
+  image_registry: 
+    project_path: "tanzurepo.azurecr.io/tap151/tap-packages"
+    username: "tanzurepo"
+    password: "0vLCaPyG55CnOo3h8XIFAEvkhPoaY9UWntvVYGKD+r+ACRD8QGpR"
+
 ceip_policy_disclosed: true # Installation fails if this is set to 'false'
 
 buildservice:
   kp_default_repository: tanzurepo.azurecr.io/buildservice
   kp_default_repository_secret:
     name: registry-credentials
-    namespace: mydev-ns
+    namespace: tap-install
+# supply_chain: testing_scanning
 supply_chain: testing
+
+ootb_delivery_basic:
+  service_account: default
+
 ootb_supply_chain_testing:
   registry:
     server: "tanzurepo.azurecr.io"
@@ -23,6 +36,10 @@ ootb_supply_chain_testing_scanning:
   gitops:
     ssh_secret: ""
 
+namespace_provisioner:
+  sync_period: 30s
+  controller: true
+
 learningcenter:
   ingressDomain: learning-center.tap.com
 
@@ -38,7 +55,9 @@ ootb_delivery_basic:
 
 
 metadata_store:
+  ns_for_export_app_cert: "dev-ns"
   app_service_type: LoadBalancer # (optional) Defaults to LoadBalancer. Change to NodePort for distributions that don't support LoadBalancer
+
 contour:
   envoy:
     service:
@@ -47,7 +66,7 @@ tap_gui:
   service_type: LoadBalancer
   app_config:
     app:
-      baseUrl: http://20.204.232.151:7000
+      baseUrl: http://20.207.98.0:7000
     integrations:
       github: # Other integrations available see NOTE below
         - host: github.com
@@ -57,9 +76,9 @@ tap_gui:
         - type: url
           target: https://github.com/dsharmaa4/tanzu-java-web-app/blob/main/catalog/catalog-info.yaml
     backend:
-      baseUrl: http://20.204.232.151:7000
+      baseUrl: http://20.207.98.0:7000
       cors:
-        origin: http://20.204.232.151:7000
+        origin: http://20.207.98.0:7000
 
 accelerator:
   server:
@@ -79,7 +98,7 @@ api_auto_registration:
       tap_gui_url: https://tap-gui.demo.tap.com
 
 grype:
-      namespace: "tap-workload" # (optional) Defaults to default namespace.
+      namespace: "dev-ns" # (optional) Defaults to default namespace.
       targetImagePullSecret: "registries-credentials"
       
 api_portal:
@@ -89,14 +108,14 @@ api_portal:
         description: "Demo"
         ingressDomain: "demo.tap.com"
 
+springboot_conventions:
+  autoConfigureActuators: true
+
+cnrs:
+  domain_name: ""
+  domain_template: "{{.Name}}.{{.Domain}}"
+
 excluded_packages:
-    - policy.apps.tanzu.vmware.com
-    - workshops.learningcenter.tanzu.vmware.com
-    - cnrs.tanzu.vmware.com
-    - ootb-delivery-basic.tanzu.vmware.com
-    - api-portal.tanzu.vmware.com
-    - backend.appliveview.tanzu.vmware.com
-    - controller.source.apps.tanzu.vmware.com
-    - grype.scanning.apps.tanzu.vmware.com
-    - namespace-provisioner.apps.tanzu.vmware.com 
-    - spring-boot-conventions.tanzu.vmware.com
+     - backend.appliveview.tanzu.vmware.com
+     - conventions.appliveview.tanzu.vmware.com
+     - metadata-store.apps.tanzu.vmware.com
