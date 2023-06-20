@@ -15,4 +15,4 @@ spec:
     git:
       url: https://github.com/dsharmaa4/tanzu-java-web-app
       ref:
-        branch: main      
+        branch: main
